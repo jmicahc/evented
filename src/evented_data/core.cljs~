@@ -1,0 +1,70 @@
+(ns evented_data.core
+  (:require [evented_data.protocols :as protocols]))
+
+(enable-console-print!)
+
+
+(defn emap [k v & kvs]
+  (apply assoc (protocols/EventMap. {} [] []) k v kvs))
+
+
+(defn evector [x & xs]
+  (apply conj (protocols/EventVector. [] [] []) x xs))
+
+
+#_(defmethod event [:row :resize]
+   ([state id]))
+
+
+#_(defmethod event [:row :delete]
+  ([state id] state))
+
+
+#_(defmethod event [:row :insert]
+  ([state id] state))
+
+
+#_(defmethod event [:row :zoom]
+  ([state id event] state))
+
+
+#_(defmethod interpret ::magnitude
+  ([state id value] state))
+
+
+
+#_(defmethod interpret ::direction
+  ([state id value] state))
+
+
+#_(defmethod interpret ::width
+  ([state id old new]))
+
+
+
+(def elem {:width 300
+           :height 355
+           :top 45
+           :left 55
+           :primitive? true
+           :children [{:width 100
+                       :height 250
+                       :children [{:width 250
+                                   :height 150
+                                   :children []}]}
+                      {:width 150
+                       :height 230
+                       :children [{:width 230
+                                   :height 150
+                                   :children []}]}]})
+
+
+
+;; define your app data so that it doesn't get over-written on reload
+(defonce app-state (atom {:text "Hello world!"}))
+
+(defn on-js-reload []
+  ;; optionally touch your app-state to force rerendering depending on
+  ;; your application
+  ;; (swap! app-state update-in [:__figwheel_counter] Inc)
+)
